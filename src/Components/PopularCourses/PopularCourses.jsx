@@ -19,7 +19,7 @@ const PopularCourses = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-green-400 uppercase text-sm tracking-wider font-semibold">
-            Features
+             <sup>__________</sup> Features
           </span>
           <h2 className="text-4xl md:text-5xl font-bold mt-2">
            Popular Courses

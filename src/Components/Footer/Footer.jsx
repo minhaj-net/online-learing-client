@@ -1,56 +1,85 @@
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import React from "react";
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1a1a1a] text-gray-300 py-10 px-5">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Logo & Description */}
-        <div>
-          <h1 className="text-green-500 text-xl font-bold mb-2">ViserLead</h1>
-          <p className="text-gray-400 text-sm">
-            ViserLead is an AI-powered SaaS platform designed to help small businesses generate verified leads effortlessly. Grow business faster with vislead.
-          </p>
-          <div className="flex space-x-3 mt-4">
-            <a href="#" className="hover:text-white"><FaFacebookF /></a>
-            <a href="#" className="hover:text-white"><FaTwitter /></a>
-            <a href="#" className="hover:text-white"><FaInstagram /></a>
-            <a href="#" className="hover:text-white"><FaLinkedinIn /></a>
+    <footer className="relative overflow-hidden  text-gray-300">
+      {/* 🌌 Background matching ChoseUs */}
+      <div className="absolute inset-0 bg-[#041d16]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(45,56,40,0.5)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>
+      </div>
+
+      {/* 💡 Content */}
+      <div className="relative z-10 px-6 lg:px-20 py-16">
+        <div className="grid gap-10 md:grid-cols-3">
+          {/* Brand / About */}
+          <div>
+            <h2 className="text-2xl font-bold text-green-400 mb-3">LearnZone</h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              LearnZone empowers learners worldwide with expert-led courses, interactive lessons, and flexible online education for everyone.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-green-400 font-semibold mb-3 text-lg">Quick Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a href="#courses" className="hover:text-green-300 transition">
+                  Courses
+                </a>
+              </li>
+              <li>
+                <a href="#about" className="hover:text-green-300 transition">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="hover:text-green-300 transition">
+                  Contact
+                </a>
+              </li>
+              <li>
+                <a href="#faq" className="hover:text-green-300 transition">
+                  FAQ
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Social / Newsletter */}
+          <div>
+            <h3 className="text-green-400 font-semibold mb-3 text-lg">Stay Connected</h3>
+            <p className="text-sm text-gray-400 mb-4">
+              Follow us on social media and stay updated with new courses.
+            </p>
+
+            <div className="flex space-x-4">
+              {[
+                { icon: <FaFacebookF />, link: "#" },
+                { icon: <FaTwitter />, link: "#" },
+                { icon: <FaLinkedinIn />, link: "#" },
+                { icon: <FaInstagram />, link: "#" },
+              ].map((item, i) => (
+                <a
+                  key={i}
+                  href={item.link}
+                  className="text-gray-300 hover:text-green-400 text-lg transition transform hover:scale-110"
+                >
+                  {item.icon}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Useful Links */}
-        <div>
-          <h2 className="text-white font-semibold mb-3">Useful Links</h2>
-          <ul className="space-y-2">
-            <li><a href="#" className="hover:text-white">Home</a></li>
-            <li><a href="#" className="hover:text-white">Pricing</a></li>
-            <li><a href="#" className="hover:text-white">Contact</a></li>
-          </ul>
-        </div>
+        {/* Divider */}
+        <div className="border-t border-green-900/40 my-10"></div>
 
-        {/* Policy Links */}
-        <div>
-          <h2 className="text-white font-semibold mb-3">Policy Links</h2>
-          <ul className="space-y-2">
-            <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-white">Terms of Service</a></li>
-            <li><a href="#" className="hover:text-white">Security Policy</a></li>
-          </ul>
+        {/* Copyright */}
+        <div className="text-center text-sm text-gray-400">
+          © {new Date().getFullYear()} <span className="text-green-400 font-semibold">LearnZone</span>. All rights reserved.
         </div>
-
-        {/* Contact Info */}
-        <div>
-          <h2 className="text-white font-semibold mb-3">Contact Info</h2>
-          <ul className="space-y-2 text-gray-400 text-sm">
-            <li>Blue Street, London, United Kingdom</li>
-            <li>Email: <a href="mailto:support@viserlead.com" className="hover:text-white">support@viserlead.com</a></li>
-            <li>Phone: <a href="tel:+52300000000" className="hover:text-white">+523-00000000</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="text-center text-gray-500 text-sm mt-10">
-        © ViserLead 2025 All Rights Reserved.
       </div>
     </footer>
   );
