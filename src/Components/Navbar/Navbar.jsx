@@ -5,7 +5,6 @@ import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const links = (
@@ -39,32 +38,32 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-md">
-      <div className="container mx-auto flex justify-between items-center py-3 px-6">
-        {/* Left Side - Logo and Name */}
-        <div className="flex items-center space-x-2">
+      <div className="container mx-auto flex items-center py-3 px-6">
+        {/* Left Side - Logo */}
+        <div className="flex items-center flex-1">
           <img
             src="https://i.ibb.co.com/GQWy02Kk/5de63102937d14a8350c852d3bf689be.jpg"
             alt="Logo"
             className="w-12 h-12 rounded-full"
           />
-          <Link to="/" className="text-xl font-bold text-gray-800">
+          <Link to="/" className="text-xl font-bold text-gray-800 ml-2">
             Online <sup className="text-[#f88d0b]">Learner</sup>
           </Link>
         </div>
 
-        {/* Center - Navigation Links (Hidden on Mobile) */}
-        <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
+        {/* Center - Navigation Links */}
+        <div className="hidden md:flex flex-1 justify-center space-x-6 text-gray-700 font-medium">
           {links}
         </div>
 
-        {/* Right Side - Dummy Button */}
-        <div className="hidden md:block">
-          <button className="user-profile">
-            <div className="user-profile-inner">
-              <FaUser />
-              <span>Profile</span>
-            </div>
-          </button>
+        {/* Right Side - Profile Button */}
+        <div className="hidden md:flex flex-1 justify-end">
+          <Link
+            to="/login"
+          className="user-profile flex items-center space-x-2 text-gray-700 hover:text-[#f88d0b]">
+            <FaUser />
+            <span>Login</span>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -80,7 +79,12 @@ const Navbar = () => {
         <div className="md:hidden bg-white shadow-md border-t">
           <div className="flex flex-col items-center space-y-4 py-4">
             {links}
-            <button class="user-profile">Login</button>
+            <Link 
+            to={"/login"}
+            className=" flex items-center space-x-2 text-gray-700 hover:text-[#f88d0b]">
+              <FaUser />
+              <span>Login</span>
+            </Link>
           </div>
         </div>
       )}
