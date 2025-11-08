@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowRight, FaUser } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -6,10 +6,20 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 
 const Banner = () => {
+  const [data,setData]=useState([])
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
+   useEffect(() => {
+      fetch("http://localhost:3000/popular/")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("after getting popular data", data);
+  
+          setData(data);
+        });
+    }, []);
   const featuredCourses = [
     {
       title: "Full-Stack Web Development",
@@ -26,7 +36,7 @@ const Banner = () => {
   ];
 
   return (
-    <section className="relative bg-linear-to-r from-[#f88d0b] to-[#eec153] text-white overflow-hidden">
+    <section className="relative bg-[#0d3325] border border-green-900/30 backdrop-blur-md text-white overflow-hidden">
       <div className="container mx-auto px-6 py-20 flex flex-col lg:flex-row items-center justify-between">
         {/* Text Section */}
         <div className="lg:w-1/2 space-y-6">
@@ -48,11 +58,8 @@ const Banner = () => {
             data-aos-delay="400"
             className="flex space-x-4"
           >
-            <button className="user-profile">
-              <div className="user-profile-inner">
-                <FaUser />
-                <span>Get Started</span>
-              </div>
+            <button className="btn btn-sm md:btn-md bg-green-500/10 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300">
+              Get Started
             </button>
             <button className="btn mt-1 btn-outline flex items-center gap-2">
               Explore Courses <FaArrowRight />
@@ -68,7 +75,7 @@ const Banner = () => {
             loop={true}
             autoplay={{ delay: 3000, disableOnInteraction: false }}
           >
-            {featuredCourses.map((course, index) => (
+            {data.map((course, index) => (
               <SwiperSlide key={index}>
                 <div className="relative rounded-xl overflow-hidden shadow-lg">
                   <img

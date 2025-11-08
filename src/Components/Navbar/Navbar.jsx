@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { Menu, X } from "lucide-react";
-import { FaUser } from "react-icons/fa";
+import { FaSignOutAlt, FaUser } from "react-icons/fa";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { toast, ToastContainer } from "react-toastify";
 
 const Navbar = () => {
+  const { user, logOut } = use(AuthContext);
+
+  const handleSignOut = () => {
+    logOut()
+      .then((result) => {
+        toast.success("Logout successful");
+        console.log(result.user);
+      })
+      .catch((err) => {
+        toast.error("Logout failed ❌. Please try again.");
+        console.log(err.message);
+      });
+  };
+
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -12,7 +28,7 @@ const Navbar = () => {
       <NavLink
         to="/"
         className={({ isActive }) =>
-          isActive ? "text-[#f88d0b] font-semibold" : "hover:text-[#f88d0b]"
+          isActive ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]" : "hover:text-[#0d3325]"
         }
       >
         Home
@@ -20,7 +36,7 @@ const Navbar = () => {
       <NavLink
         to="/courses"
         className={({ isActive }) =>
-          isActive ? "text-[#f88d0b] font-semibold" : "hover:text-[#f88d0b]"
+          isActive ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]" : "hover:text-[#0d3325]"
         }
       >
         Courses
@@ -28,7 +44,7 @@ const Navbar = () => {
       <NavLink
         to="/dashboard"
         className={({ isActive }) =>
-          isActive ? "text-[#f88d0b] font-semibold" : "hover:text-[#f88d0b]"
+          isActive ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]" : "hover:text-[#0d3325]"
         }
       >
         Dashboard
@@ -38,6 +54,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-md">
+      <ToastContainer></ToastContainer>
       <div className="container mx-auto flex items-center py-3 px-6">
         {/* Left Side - Logo */}
         <div className="flex items-center flex-1">
@@ -47,7 +64,7 @@ const Navbar = () => {
             className="w-12 h-12 rounded-full"
           />
           <Link to="/" className="text-xl font-bold text-gray-800 ml-2">
-            Online <sup className="text-[#f88d0b]">Learner</sup>
+            Online <sup className="text-[#0d3325]">Learner</sup>
           </Link>
         </div>
 
@@ -58,12 +75,24 @@ const Navbar = () => {
 
         {/* Right Side - Profile Button */}
         <div className="hidden md:flex flex-1 justify-end">
-          <Link
-            to="/login"
-          className="user-profile flex items-center space-x-2 text-gray-700 hover:text-[#f88d0b]">
-            <FaUser />
-            <span>Login</span>
-          </Link>
+          {user ? (
+            <Link
+            onClick={handleSignOut}
+              to="/login"
+               className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+            >
+              <FaSignOutAlt className="rotate-180" />
+              <span>Logout</span>
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+                 className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+            >
+              <FaUser />
+              <span>Login</span>
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -79,9 +108,10 @@ const Navbar = () => {
         <div className="md:hidden bg-white shadow-md border-t">
           <div className="flex flex-col items-center space-y-4 py-4">
             {links}
-            <Link 
-            to={"/login"}
-            className=" flex items-center space-x-2 text-gray-700 hover:text-[#f88d0b]">
+            <Link
+              to={"/login"}
+                className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+            >
               <FaUser />
               <span>Login</span>
             </Link>
