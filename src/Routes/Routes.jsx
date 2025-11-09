@@ -2,9 +2,15 @@ import { createBrowserRouter } from "react-router";
 import RootLayout from "../RootLayout/RootLayout";
 import Home from "../Pages/Home/Home";
 import Courses from "../Pages/Courses/Courses";
-import DashBoard from "../Pages/DashBoard/DashBoard";
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
+import DashBoardLayout from "../Pages/DashBoardLayout/DashBoardLayout";
+import AllCourses from "../Components/AllCourses/AllCourses";
+import AddCourse from "../Pages/AddCourse/AddCourse";
+import MyCourse from "../Pages/MyCourse/MyCourse";
+import UpdateCourse from "../Pages/UpdateCourse/UpdateCourse";
+import MyEnrolledCourse from "../Pages/MyEnrolledCourse/MyEnrolledCourse";
+import CourseDetails from "../Components/CourseDetails/CourseDetails";
 
 export const router = createBrowserRouter([
   {
@@ -16,17 +22,45 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "/courses",
+        path: "courses",
         Component: Courses,
       },
       {
-        path: "/dashboard",
-        Component: DashBoard,
+        path: "dashboard",
+        Component: DashBoardLayout,
+        children: [
+          {
+            path: "all-courses",
+            Component: AllCourses,
+          },
+          {
+            path: "all-courses/course-details/:id", 
+            loader:({params})=>fetch(`http://localhost:3000/course/${params.id}`),
+            Component: CourseDetails,
+
+          },
+          {
+            path: "add-course",
+            Component: AddCourse,
+          },
+          {
+            path: "my-course",
+            Component: MyCourse,
+          },
+          {
+            path: "update-course",
+            Component: UpdateCourse,
+          },
+          {
+            path: "my-enrolled-course",
+            Component: MyEnrolledCourse,
+          },
+        ],
       },
     ],
   },
   {
-    path: "/login", // 👈 outside the RootLayout
+    path: "/login",
     Component: Login,
   },
   {

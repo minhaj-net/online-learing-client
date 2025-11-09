@@ -41,7 +41,7 @@ const TopInstructor = () => {
       {/* 🌌 Background Gradient */}
       <div className="absolute inset-0 bg-[#041d16]">
         <div className="absolute inset-0 bg-[radial-linear(circle_at_center,_rgba(45,56,40,0.6)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>
-      </div>
+      </div>  
 
       {/* ✨ Header */}
       <div className="relative z-10 text-center mb-10 md:mb-14">
