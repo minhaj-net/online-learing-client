@@ -11,6 +11,7 @@ import MyCourse from "../Pages/MyCourse/MyCourse";
 import UpdateCourse from "../Pages/UpdateCourse/UpdateCourse";
 import MyEnrolledCourse from "../Pages/MyEnrolledCourse/MyEnrolledCourse";
 import CourseDetails from "../Components/CourseDetails/CourseDetails";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -69,4 +70,8 @@ export const router = createBrowserRouter([
     path: "/registration",
     Component: Registration,
   },
+  {
+    path:"*",
+    Component:ErrorPage
+  }
 ]);
