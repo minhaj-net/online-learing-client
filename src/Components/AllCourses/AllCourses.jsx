@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link, Outlet } from "react-router";
+import Loading from "../Loading/Loading";
 
 const AllCourses = () => {
   const [data, setData] = useState([]);
+  const [loading,setLoading]=useState(true)
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -15,11 +17,14 @@ const AllCourses = () => {
     fetch("http://localhost:3000/all-courses")
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false)
         console.log("after reloading all course data", data);
         setData(data);
       });
   }, []);
-
+  if(loading){
+   return  <Loading></Loading>
+  }
   return (
     <section className="relative overflow-hidden py-16 md:py-20 px-5 md:px-10 lg:px-20">
       {/* ✨ Header */}

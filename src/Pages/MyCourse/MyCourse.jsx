@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import CourseCard from "../../Components/MyCourseCard/MyCourseCard";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { motion } from "framer-motion";
+import Loading from "../../Components/Loading/Loading";
 
 const MyCourses = () => {
   const { user } = useContext(AuthContext);
@@ -40,7 +41,9 @@ const MyCourses = () => {
     })
     .catch(() => toast.error("Failed to delete course"));
 };
-
+  if(loading){
+    return <Loading></Loading>
+  }
   return (
     <div className="min-h-screen  text-white py-10 px-4 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto text-center">

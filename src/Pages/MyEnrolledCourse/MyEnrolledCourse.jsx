@@ -1,22 +1,28 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { motion } from "framer-motion";
+import Loading from "../../Components/Loading/Loading";
 
 const MyEnrolledCourses = () => {
   const { user } = useContext(AuthContext);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
-  
+    const [loading,setLoading]=useState(true)
   // console.log(enrolledCourses);
 
   useEffect(() => {
     if (user?.email) {
       fetch(`http://localhost:3000/my-enroll?email=${user.email}`)
         .then((res) => res.json())
-        .then((data) => setEnrolledCourses(data))
+        .then((data) => {
+          setLoading(false)
+          setEnrolledCourses(data)
+        })
         .catch((err) => console.error(err));
     }
   }, [user]);
-
+  if(loading){
+    return <Loading></Loading>
+  }
   return (
     <div className="min-h-screen bg-[#0d3325] py-10 px-5">
       <h2 className="text-3xl text-green-400 font-bold mb-8 text-center">
