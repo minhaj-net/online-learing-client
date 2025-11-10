@@ -2,7 +2,6 @@ import React, { use, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import toast, { Toaster } from "react-hot-toast";
 import {
   FaImage,
   FaTag,
@@ -12,7 +11,7 @@ import {
   FaStar,
 } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const AddCourse = () => {
   const {user}=use(AuthContext)
@@ -31,11 +30,13 @@ const AddCourse = () => {
     const duration = e.target.duration.value;
     const category = e.target.category.value;
     const isFeatured = e.target.isFeatured.value;
+    const description=e.target.description.value;
     const newCourse={
         title:title,
         image:image,
         price:price,
         duration:duration,
+        description:description,
         category:category,
         isFeatured:isFeatured,
         email:user?.email
@@ -62,7 +63,6 @@ const AddCourse = () => {
 
   return (
     <div className="min-h-screen bg-[#0d3325] flex justify-center items-start py-10 px-5">
-      <Toaster position="top-right" />
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 30 }}

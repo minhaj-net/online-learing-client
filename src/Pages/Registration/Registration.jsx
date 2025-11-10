@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Registration = () => {
   const { createUser, googleSignIn } = use(AuthContext);
@@ -61,19 +61,6 @@ const Registration = () => {
   return (
     <div>
       <Navbar />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
       <div className="relative flex justify-center items-center min-h-screen overflow-hidden bg-[#1b2a1f]">
         {/* 🌈 Gradient Background */}
         <div className="absolute inset-0">

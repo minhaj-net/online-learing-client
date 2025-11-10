@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router";
 import { Menu, X } from "lucide-react";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const { user, logOut } = use(AuthContext);
@@ -28,7 +28,9 @@ const Navbar = () => {
       <NavLink
         to="/"
         className={({ isActive }) =>
-          isActive ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]" : "hover:text-[#0d3325]"
+          isActive
+            ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]"
+            : "hover:text-[#0d3325]"
         }
       >
         Home
@@ -36,7 +38,9 @@ const Navbar = () => {
       <NavLink
         to="/courses"
         className={({ isActive }) =>
-          isActive ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]" : "hover:text-[#0d3325]"
+          isActive
+            ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]"
+            : "hover:text-[#0d3325]"
         }
       >
         Courses
@@ -44,7 +48,9 @@ const Navbar = () => {
       <NavLink
         to="/dashboard"
         className={({ isActive }) =>
-          isActive ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]" : "hover:text-[#0d3325]"
+          isActive
+            ? "text-[#0d3325] font-bold border-b-3 border-[#0d3325]"
+            : "hover:text-[#0d3325]"
         }
       >
         Dashboard
@@ -54,7 +60,6 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-md">
-      <ToastContainer></ToastContainer>
       <div className="container mx-auto flex items-center py-3 px-6">
         {/* Left Side - Logo */}
         <div className="flex items-center flex-1">
@@ -77,9 +82,9 @@ const Navbar = () => {
         <div className="hidden md:flex flex-1 justify-end">
           {user ? (
             <Link
-            onClick={handleSignOut}
+              onClick={handleSignOut}
               to="/login"
-               className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+              className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
             >
               <FaSignOutAlt className="rotate-180" />
               <span>Logout</span>
@@ -87,7 +92,7 @@ const Navbar = () => {
           ) : (
             <Link
               to="/login"
-                 className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+              className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
             >
               <FaUser />
               <span>Login</span>
@@ -110,7 +115,7 @@ const Navbar = () => {
             {links}
             <Link
               to={"/login"}
-                className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+              className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
             >
               <FaUser />
               <span>Login</span>

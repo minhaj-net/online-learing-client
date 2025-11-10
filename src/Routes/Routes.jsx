@@ -34,10 +34,10 @@ export const router = createBrowserRouter([
             Component: AllCourses,
           },
           {
-            path: "all-courses/course-details/:id", 
-            loader:({params})=>fetch(`http://localhost:3000/course/${params.id}`),
+            path: "all-courses/course-details/:id",
+            loader: ({ params }) =>
+              fetch(`http://localhost:3000/course/${params.id}`),
             Component: CourseDetails,
-
           },
           {
             path: "add-course",
@@ -48,7 +48,9 @@ export const router = createBrowserRouter([
             Component: MyCourse,
           },
           {
-            path: "update-course",
+            path: "update-course/:id",
+            loader: ({ params }) =>
+              fetch(`http://localhost:3000/course/${params.id}`),
             Component: UpdateCourse,
           },
           {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -8,13 +8,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { useLoaderData } from "react-router";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const CourseDetails = () => {
+  const { user } = use(AuthContext);
   const data = useLoaderData();
   console.log(data.category);
-  
-  const {category,description,duration,image,price,title}=data
+
+  const { category, description, duration, image, price, title } = data;
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -22,12 +24,39 @@ const CourseDetails = () => {
 
   // Dummy course data (you can replace this with your dynamic fetch data)
   const course = {
-   highlights: [
+    highlights: [
       "Expert Instructors",
       "Certified Courses",
       "Flexible Learning",
       "Global Community",
     ],
+  };
+  const handleEnroll = (course) => {
+    toast.success("🎉 Enrolled Successfully!");
+    if (!user?.email) {
+      return alert("Please login to enroll!");
+    }
+
+    const enrollData = {
+      userEmail: user.email, // logged-in user email
+      courseId: course._id,
+      category: category,
+      description: description,
+      title: title,
+      image: image,
+      price: price,
+      duration:duration,
+      enrolledAt: new Date(), // date of enrollment
+    };
+
+    fetch("http://localhost:3000/my-enroll", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(enrollData),
+    })
+      .then((res) => res.json())
+      .then(() => toast.success(" Enrolled successfully!"))
+      .catch((err) => console.error(err));
   };
 
   // const relatedCourses = [
@@ -48,14 +77,10 @@ const CourseDetails = () => {
   //   },
   // ];
 
-  const handleEnroll = () => {
-    toast.success("🎉 Enrolled Successfully!");
-  };
-
   return (
     <section className="min-h-screen bg-[#041d16] text-white py-16 px-5 md:px-10 lg:px-20">
       {/* 🔹 Course Banner */}
-     <ToastContainer></ToastContainer>
+
       <motion.div
         data-aos="fade-up"
         className="relative w-full rounded-2xl overflow-hidden shadow-lg mb-12"
@@ -71,7 +96,6 @@ const CourseDetails = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-green-300 mb-2">
             {title}
           </h1>
-         
         </div>
       </motion.div>
 
@@ -91,7 +115,7 @@ const CourseDetails = () => {
           </p>
 
           <h3 className="text-xl font-semibold text-green-400 mb-4">
-           Why Chose With Us:
+            Why Chose With Us:
           </h3>
           <ul className="space-y-3">
             {course.highlights.map((item, index) => (
@@ -109,10 +133,7 @@ const CourseDetails = () => {
         >
           <div className="flex items-center justify-between">
             <span className="text-green-400 font-semibold">Category:</span>
-            <p className="flex items-center gap-2">
-             
-              {category}
-            </p>
+            <p className="flex items-center gap-2">{category}</p>
           </div>
 
           <div className="flex items-center justify-between">

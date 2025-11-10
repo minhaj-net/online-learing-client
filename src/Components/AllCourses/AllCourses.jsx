@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Link, Outlet } from "react-router"; // ✅ Outlet import করো
+import { Link, Outlet } from "react-router";
 
 const AllCourses = () => {
   const [data, setData] = useState([]);
