@@ -1,16 +1,16 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-
 
 const PopularCourses = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/popular/")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("after getting popular data", data);
-
-        setData(data);
-      });
+    axios
+      .get("http://localhost:3000/popular/")
+      .then((res) => {
+        console.log("after getting popular data", res.data);
+        setData(res.data);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   return (
@@ -19,13 +19,15 @@ const PopularCourses = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-green-400 uppercase text-sm tracking-wider font-semibold">
-             <sup>__________</sup> Features
+            <sup>__________</sup> Features
           </span>
           <h2 className="text-4xl md:text-5xl font-bold mt-2">
-           Popular Courses
+            Popular Courses
           </h2>
           <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
-           Discover courses that can boost your career. Learn from expert instructors and practical lessons. Join thousands of learners who are advancing their skills every day.
+            Discover courses that can boost your career. Learn from expert
+            instructors and practical lessons. Join thousands of learners who
+            are advancing their skills every day.
           </p>
         </div>
 
@@ -53,4 +55,4 @@ const PopularCourses = () => {
   );
 };
 
-export default PopularCourses
+export default PopularCourses;

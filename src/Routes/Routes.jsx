@@ -12,6 +12,7 @@ import UpdateCourse from "../Pages/UpdateCourse/UpdateCourse";
 import MyEnrolledCourse from "../Pages/MyEnrolledCourse/MyEnrolledCourse";
 import CourseDetails from "../Components/CourseDetails/CourseDetails";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import axios from "axios";
 
 export const router = createBrowserRouter([
   {
@@ -36,8 +37,12 @@ export const router = createBrowserRouter([
           },
           {
             path: "all-courses/course-details/:id",
-            loader: ({ params }) =>
-              fetch(`http://localhost:3000/course/${params.id}`),
+            loader: async ({ params }) => {
+              const res = await axios.get(
+                `http://localhost:3000/course/${params.id}`
+              );
+              return res.data;
+            },
             Component: CourseDetails,
           },
           {
@@ -51,7 +56,9 @@ export const router = createBrowserRouter([
           {
             path: "update-course/:id",
             loader: ({ params }) =>
-              fetch(`http://localhost:3000/course/${params.id}`),
+              axios
+                .get(`http://localhost:3000/course/${params.id}`)
+                .then((res) => res.data),
             Component: UpdateCourse,
           },
           {
@@ -71,7 +78,7 @@ export const router = createBrowserRouter([
     Component: Registration,
   },
   {
-    path:"*",
-    Component:ErrorPage
-  }
+    path: "*",
+    Component: ErrorPage,
+  },
 ]);

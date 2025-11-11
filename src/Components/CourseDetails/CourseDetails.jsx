@@ -10,6 +10,7 @@ import { Pagination } from "swiper/modules";
 import { useLoaderData } from "react-router";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
 
 const CourseDetails = () => {
   const { user } = use(AuthContext);
@@ -22,7 +23,7 @@ const CourseDetails = () => {
     AOS.init({ duration: 1000 });
   }, []);
 
-  // Dummy course data (you can replace this with your dynamic fetch data)
+  // Dummy course data (you can replace this with your dynamic  data)
   const course = {
     highlights: [
       "Expert Instructors",
@@ -45,18 +46,19 @@ const CourseDetails = () => {
       title: title,
       image: image,
       price: price,
-      duration:duration,
+      duration: duration,
       enrolledAt: new Date(), // date of enrollment
     };
 
-    fetch("http://localhost:3000/my-enroll", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(enrollData),
-    })
-      .then((res) => res.json())
-      .then(() => toast.success(" Enrolled successfully!"))
-      .catch((err) => console.error(err));
+    axios
+      .post("http://localhost:3000/my-enroll", enrollData)
+      .then(() => {
+        toast.success("✅ Enrolled successfully!");
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("❌ Enrollment failed!");
+      });
   };
 
   // const relatedCourses = [

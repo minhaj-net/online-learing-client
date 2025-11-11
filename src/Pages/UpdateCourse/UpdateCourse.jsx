@@ -14,6 +14,7 @@ import {
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
 
 const UpdateCourse = () => {
   const { id } = useParams(); 
@@ -55,20 +56,16 @@ const UpdateCourse = () => {
 
     
 
-    fetch(`http://localhost:3000/courses/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newCourse),
-    })
-      .then((res) => {
-      
-        return res.json();
-      })
-      .then(() => {
-        toast.success("✅ Course updated successfully!");
-        navigate("/dashboard/my-course");
-      })
-      .catch(() => toast.error("❌ Update failed! Try again."));
+   axios
+  .put(`http://localhost:3000/courses/${id}`, newCourse)
+  .then(() => {
+    toast.success("✅ Course updated successfully!");
+    navigate("/dashboard/my-course");
+  })
+  .catch(() => {
+    toast.error("❌ Update failed! Try again.");
+  });
+
   };
 
   return (

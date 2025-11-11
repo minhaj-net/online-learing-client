@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { motion } from "framer-motion";
 import Loading from "../../Components/Loading/Loading";
+import axios from "axios";
 
 const MyEnrolledCourses = () => {
   const { user } = useContext(AuthContext);
@@ -9,17 +10,17 @@ const MyEnrolledCourses = () => {
     const [loading,setLoading]=useState(true)
   // console.log(enrolledCourses);
 
-  useEffect(() => {
-    if (user?.email) {
-      fetch(`http://localhost:3000/my-enroll?email=${user.email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setLoading(false)
-          setEnrolledCourses(data)
-        })
-        .catch((err) => console.error(err));
-    }
-  }, [user]);
+useEffect(() => {
+  if (user?.email) {
+    axios
+      .get(`http://localhost:3000/my-enroll?email=${user.email}`)
+      .then((res) => {
+        setLoading(false);
+        setEnrolledCourses(res.data);
+      })
+      .catch((err) => console.error(err));
+  }
+}, [user]);
   if(loading){
     return <Loading></Loading>
   }

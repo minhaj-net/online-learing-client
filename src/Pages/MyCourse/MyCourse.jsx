@@ -4,6 +4,7 @@ import CourseCard from "../../Components/MyCourseCard/MyCourseCard";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { motion } from "framer-motion";
 import Loading from "../../Components/Loading/Loading";
+import axios from "axios";
 
 const MyCourses = () => {
   const { user } = useContext(AuthContext);
@@ -11,38 +12,36 @@ const MyCourses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      fetch(`http://localhost:3000/courses?email=${user?.email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setCourses(data);
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+  if (user) {
+    axios
+      .get(`http://localhost:3000/courses?email=${user?.email}`)
+      .then((res) => {
+        setCourses(res.data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  } else {
+    setLoading(false);
+  }
+}, [user]);
   const handleDelete = (id) => {
-  // const confirmDelete = window.confirm("Are you sure you want to delete this course?");
-  // if (!confirmDelete) return;
+    // const confirmDelete = window.confirm("Are you sure you want to delete this course?");
+    // if (!confirmDelete) return;
 
-  fetch(`http://localhost:3000/courses/${id}`, {
-    method: "DELETE",
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.message === "Course deleted successfully") {
-        setCourses(courses.filter((c) => c._id !== id));
-        toast.success("Course deleted successfully!");
-      } else {
-        toast.error("Course not found!");
-      }
-    })
-    .catch(() => toast.error("Failed to delete course"));
-};
-  if(loading){
-    return <Loading></Loading>
+    axios
+      .delete(`http://localhost:3000/courses/${id}`)
+      .then((res) => {
+        if (res.data.message === "Course deleted successfully") {
+          setCourses(courses.filter((c) => c._id !== id));
+          toast.success("✅ Course deleted successfully!");
+        } else {
+          toast.error("❌ Course not found!");
+        }
+      })
+      .catch(() => toast.error("❌ Failed to delete course"));
+  };
+  if (loading) {
+    return <Loading></Loading>;
   }
   return (
     <div className="min-h-screen  text-white py-10 px-4 sm:px-6 lg:px-10">
@@ -64,8 +63,9 @@ const MyCourses = () => {
 
         {/* Subtitle */}
         <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto mb-10">
-          Here you can view, update, or manage all the courses you’ve created or enrolled in.
-          Keep track of your learning journey and make changes whenever you need.
+          Here you can view, update, or manage all the courses you’ve created or
+          enrolled in. Keep track of your learning journey and make changes
+          whenever you need.
         </p>
 
         {/* Loading State */}
@@ -90,7 +90,11 @@ const MyCourses = () => {
         {!loading && courses.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-6">
             {courses.map((course) => (
-              <CourseCard key={course._id} handleDelete={handleDelete} course={course} />
+              <CourseCard
+                key={course._id}
+                handleDelete={handleDelete}
+                course={course}
+              />
             ))}
           </div>
         )}

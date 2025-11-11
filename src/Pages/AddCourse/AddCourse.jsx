@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -12,66 +12,72 @@ import {
 } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AddCourse = () => {
-  const {user}=use(AuthContext)
-  console.log(user?.email);
+  const { user } = useContext(AuthContext);
+  const [categories, setCategories] = useState([]);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
+
+    // Fetch unique categories from backend
+    axios
+      .get("http://localhost:3000/all-courses")
+      .then((res) => {
+        const uniqueCategories = [
+          ...new Set(res.data.map((course) => course.category)),
+        ];
+        setCategories(uniqueCategories);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("After submitted new course");
 
     const title = e.target.title.value;
     const image = e.target.image.value;
     const price = e.target.price.value;
     const duration = e.target.duration.value;
     const category = e.target.category.value;
-    const isFeatured = e.target.isFeatured.value;
-    const description=e.target.description.value;
-    const newCourse={
-        title:title,
-        image:image,
-        price:price,
-        duration:duration,
-        description:description,
-        category:category,
-        isFeatured:isFeatured,
-        email:user?.email
-        
+    const isFeatured = e.target.isFeatured.checked;
+    const description = e.target.description.value;
 
-    }
-    console.log(newCourse);
+    const newCourse = {
+      title,
+      image,
+      price,
+      duration,
+      description,
+      category,
+      isFeatured,
+      email: user?.email,
+    };
 
-
-    fetch("http://localhost:3000/all-courses", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newCourse),
-    })
-      .then((res) => {
-        console.log(res);
-        toast.success("Add New Course Successfully")
-        e.target.reset()
+    axios
+      .post("http://localhost:3000/all-courses", newCourse)
+      .then(() => {
+        toast.success("✅ Add New Course Successfully");
+        e.target.reset();
       })
       .catch((err) => {
         console.log(err.message);
+        toast.error("❌ Failed to add course");
       });
   };
 
   return (
-    <div className="min-h-screen bg-[#0d3325] flex justify-center items-start py-10 px-5">
+    <div className="min-h-screen bg-[#0d3325] flex justify-center items-start py-8 px-3 sm:px-6 md:px-10">
       <motion.form
         onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-2xl bg-[#041d16]/80 border border-green-900 rounded-2xl p-8 shadow-lg"
+        className="w-full max-w-2xl bg-[#041d16]/80 border border-green-900 rounded-2xl p-6 sm:p-8 md:p-10 shadow-lg"
         data-aos="fade-up"
       >
-        <h2 className="text-3xl font-bold text-green-400 mb-6 text-center">
+        <h2 className="text-2xl sm:text-3xl font-bold text-green-400 mb-6 text-center">
           Add New Course
         </h2>
 
@@ -132,18 +138,23 @@ const AddCourse = () => {
           </div>
         </div>
 
-        {/* Category */}
+        {/* Category Dropdown */}
         <div className="form-control mb-4">
           <label className="label flex items-center gap-2">
             <FaTag className="text-green-400" /> Category
           </label>
-          <input
-            type="text"
+          <select
             name="category"
-            placeholder="Enter category"
-            className="input input-bordered w-full text-white bg-[#0d3325] border-green-600 placeholder-gray-400"
+            className="select select-bordered w-full text-white bg-[#0d3325] border-green-600"
             required
-          />
+          >
+            <option value="">Select Category</option>
+            {categories.map((cat, i) => (
+              <option key={i} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Description */}
@@ -160,10 +171,9 @@ const AddCourse = () => {
           />
         </div>
 
-        {/* Is Featured */}
+        {/* Featured Checkbox */}
         <div className="form-control mb-6 flex items-center gap-2">
           <input
-          
             type="checkbox"
             name="isFeatured"
             className="checkbox checkbox-success"
