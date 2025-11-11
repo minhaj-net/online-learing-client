@@ -21,7 +21,7 @@ const AllCourses = () => {
   // Fetch all courses
   useEffect(() => {
     axios
-      .get("http://localhost:3000/all-courses")
+      .get("https://learn-zone-server.vercel.app/all-courses")
       .then((res) => {
         setData(res.data);
         setFilteredData(res.data);
@@ -53,6 +53,10 @@ const AllCourses = () => {
   return (
     <section className="relative overflow-hidden py-10 px-3 md:px-6 lg:px-10 flex flex-col lg:flex-row gap-6">
       {/* Left Sidebar - Categories */}
+      <div className="absolute inset-0 bg-[#041d16]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(45,56,40,0.7)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>
+      </div>
+      <title>Learn Zone - All Courses</title>
       <aside className="w-full lg:w-1/4 bg-[#0d3325]/70 backdrop-blur-md rounded-2xl p-4 md:p-5 text-white mb-5 lg:mb-0">
         <h3 className="text-md md:text-lg font-semibold mb-3 md:mb-4">
           Filter by Category

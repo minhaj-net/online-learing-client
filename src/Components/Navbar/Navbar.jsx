@@ -1,24 +1,43 @@
 import React, { use, useState } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { Menu, X } from "lucide-react";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { toast } from "react-toastify";
+import { signOut } from "firebase/auth";
+import { auth } from "../../Firebase/firebase.init";
+import ToogleButton from "../ToggleButton/ToggleButton";
 
 const Navbar = () => {
-  const { user, logOut } = use(AuthContext);
+  const { user } = use(AuthContext);
 
+  // const handleSignOut = () => {
+ 
+  //   logOut()
+  //     .then((result) => {
+  //       toast.success("Logout successful");
+  //       console.log(result);
+  //     })
+  //     .catch((err) => {
+  //       toast.error("Log out Failed")
+  //       console.log(err);
+  //     });
+  // };
+
+    
+  const navigate = useNavigate();
   const handleSignOut = () => {
-    logOut()
-      .then((result) => {
-        toast.success("Logout successful");
-        console.log(result.user);
-      })
-      .catch((err) => {
-        toast.error("Logout failed ❌. Please try again.");
-        console.log(err.message);
-      });
-  };
+
+  signOut(auth)
+    .then(() => {
+      toast.success("Logout successful");
+      navigate("/login"); // লগআউটের পর রিডাইরেক্ট করবে
+    })
+    .catch((error) => {
+      console.error("Logout error:", error);
+      toast.error("Logout failed. Please try again.");
+    });
+};
 
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -59,7 +78,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md justify-center items-center">
       <div className="container mx-auto flex items-center py-3 px-6">
         {/* Left Side - Logo */}
         <div className="flex items-center flex-1">
@@ -69,7 +88,7 @@ const Navbar = () => {
             className="w-12 h-12 rounded-full"
           />
           <Link to="/" className="text-xl font-bold text-gray-800 ml-2">
-            Online <sup className="text-[#0d3325]">Learner</sup>
+            Learn <sup className="text-[#0d3325]">Zone</sup>
           </Link>
         </div>
 
@@ -80,11 +99,12 @@ const Navbar = () => {
 
         {/* Right Side - Profile Button */}
         <div className="hidden md:flex flex-1 justify-end">
+          <ToogleButton></ToogleButton>
           {user ? (
             <Link
               onClick={handleSignOut}
-              to="/login"
-              className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+             
+              className="btn btn-sm md:btn-md bg-green-700 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
             >
               <FaSignOutAlt className="rotate-180" />
               <span>Logout</span>
@@ -92,7 +112,7 @@ const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+              className="btn btn-sm md:btn-md bg-green-700 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
             >
               <FaUser />
               <span>Login</span>
@@ -115,7 +135,7 @@ const Navbar = () => {
             {links}
             <Link
               to={"/login"}
-              className="bg-[#0d3325] flex justify-center items-center px-4 py-2 text-white border border-green-900/30 backdrop-blur-md rounded-xl gap-2 shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden group"
+              className="btn btn-sm md:btn-md bg-green-500/10 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
             >
               <FaUser />
               <span>Login</span>

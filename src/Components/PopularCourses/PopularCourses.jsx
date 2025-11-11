@@ -5,7 +5,7 @@ const PopularCourses = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/popular/")
+      .get("https://learn-zone-server.vercel.app/popular/")
       .then((res) => {
         console.log("after getting popular data", res.data);
         setData(res.data);

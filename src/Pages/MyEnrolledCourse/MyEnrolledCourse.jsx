@@ -13,7 +13,7 @@ const MyEnrolledCourses = () => {
 useEffect(() => {
   if (user?.email) {
     axios
-      .get(`http://localhost:3000/my-enroll?email=${user.email}`)
+      .get(`https://learn-zone-server.vercel.app/my-enroll?email=${user.email}`)
       .then((res) => {
         setLoading(false);
         setEnrolledCourses(res.data);
@@ -29,6 +29,7 @@ useEffect(() => {
       <h2 className="text-3xl text-green-400 font-bold mb-8 text-center">
         My Enrolled Courses
       </h2>
+      <title>Learn Zone - My Enroll</title>
 
       {enrolledCourses.length === 0 ? (
         <p className="text-center text-gray-400">

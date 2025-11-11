@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const Form = () => {
   const { googleSignIn, signIn } = useContext(AuthContext);
@@ -41,6 +41,7 @@ const Form = () => {
       <Navbar />
       <div className="relative flex justify-center items-center min-h-screen overflow-hidden bg-[#1b2a1f]">
         {/* 🌈 Gradient Background */}
+        <ToastContainer></ToastContainer>
         <div className="absolute inset-0">
           <div className="absolute top-[-60px] left-[-60px] w-[220px] h-[220px] bg-gradient-to-br from-green-300/30 via-transparent to-transparent rounded-full blur-2xl"></div>
           <div className="absolute bottom-[-60px] right-[-60px] w-[220px] h-[220px] bg-gradient-to-tl from-green-400/30 via-transparent to-transparent rounded-full blur-2xl"></div>
@@ -49,7 +50,9 @@ const Form = () => {
 
         {/* 🔄 Form Container */}
         <div className="relative w-[320px] h-[500px] rounded-xl bg-[#2a3a2b] shadow-[4px_4px_12px_rgba(0,0,0,0.3),1px_1px_8px_rgba(255,255,255,0.2)] flex flex-col justify-center items-center p-6 gap-4">
-          <h2 className="text-white text-2xl font-semibold mb-4 text-center">Login</h2>
+          <h2 className="text-white text-2xl font-semibold mb-4 text-center">
+            Login
+          </h2>
 
           <form
             onSubmit={handleSignInWithEmailAndPassword}
@@ -102,7 +105,6 @@ const Form = () => {
             Don't have an account?{" "}
             <Link
               to={"/registration"}
-              onClick={() => setIsSignup(true)}
               className="underline font-bold cursor-pointer hover:text-green-300"
             >
               Sign Up

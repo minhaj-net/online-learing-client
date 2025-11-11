@@ -57,7 +57,7 @@ const UpdateCourse = () => {
     
 
    axios
-  .put(`http://localhost:3000/courses/${id}`, newCourse)
+  .put(`https://learn-zone-server.vercel.app/courses/${id}`, newCourse)
   .then(() => {
     toast.success("✅ Course updated successfully!");
     navigate("/dashboard/my-course");
@@ -78,6 +78,7 @@ const UpdateCourse = () => {
         className="w-full max-w-2xl bg-[#041d16]/80 border border-green-900 rounded-2xl p-8 shadow-lg"
         data-aos="fade-up"
       >
+        <title>Learn Zone - Update Courses</title>
         <h2 className="text-3xl font-bold text-green-400 mb-6 text-center">
           Update Course
         </h2>

@@ -9,6 +9,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import axios from "axios";
+import Loading from "../Loading/Loading";
 
 const Banner = () => {
   useEffect(() => {
@@ -16,16 +17,22 @@ const Banner = () => {
   }, []);
 
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/popular/")
+      .get("https://learn-zone-server.vercel.app/popular/")
       .then((res) => {
+        setLoading(false)
         console.log("after getting popular data", res.data);
         setData(res.data);
       })
       .catch((err) => console.error(err));
   }, []);
+
+    if(loading){
+      return <Loading></Loading>
+    }
 
   return (
     <section className="relative text-white overflow-hidden">

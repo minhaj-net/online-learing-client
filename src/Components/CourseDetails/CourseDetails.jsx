@@ -51,7 +51,7 @@ const CourseDetails = () => {
     };
 
     axios
-      .post("http://localhost:3000/my-enroll", enrollData)
+      .post("https://learn-zone-server.vercel.app/my-enroll", enrollData)
       .then(() => {
         toast.success("✅ Enrolled successfully!");
       })

@@ -14,7 +14,7 @@ const MyCourses = () => {
   useEffect(() => {
   if (user) {
     axios
-      .get(`http://localhost:3000/courses?email=${user?.email}`)
+      .get(`https://learn-zone-server.vercel.app/courses?email=${user?.email}`)
       .then((res) => {
         setCourses(res.data);
         setLoading(false);
@@ -29,7 +29,7 @@ const MyCourses = () => {
     // if (!confirmDelete) return;
 
     axios
-      .delete(`http://localhost:3000/courses/${id}`)
+      .delete(`https://learn-zone-server.vercel.app/courses/${id}`)
       .then((res) => {
         if (res.data.message === "Course deleted successfully") {
           setCourses(courses.filter((c) => c._id !== id));
@@ -45,6 +45,7 @@ const MyCourses = () => {
   }
   return (
     <div className="min-h-screen  text-white py-10 px-4 sm:px-6 lg:px-10">
+      <title>Learn Zone - My Courses</title>
       <div className="max-w-7xl mx-auto text-center">
         {/* Section Label */}
         <h3 className="text-green-400 uppercase text-sm tracking-wider font-semibold mb-2">

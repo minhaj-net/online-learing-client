@@ -23,7 +23,7 @@ const AddCourse = () => {
 
     // Fetch unique categories from backend
     axios
-      .get("http://localhost:3000/all-courses")
+      .get("https://learn-zone-server.vercel.app/all-courses")
       .then((res) => {
         const uniqueCategories = [
           ...new Set(res.data.map((course) => course.category)),
@@ -56,7 +56,7 @@ const AddCourse = () => {
     };
 
     axios
-      .post("http://localhost:3000/all-courses", newCourse)
+      .post("https://learn-zone-server.vercel.app/all-courses", newCourse)
       .then(() => {
         toast.success("✅ Add New Course Successfully");
         e.target.reset();
@@ -77,6 +77,7 @@ const AddCourse = () => {
         className="w-full max-w-2xl bg-[#041d16]/80 border border-green-900 rounded-2xl p-6 sm:p-8 md:p-10 shadow-lg"
         data-aos="fade-up"
       >
+        <title>Learn Zone - Add Courses</title>
         <h2 className="text-2xl sm:text-3xl font-bold text-green-400 mb-6 text-center">
           Add New Course
         </h2>

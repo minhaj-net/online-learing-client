@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
             path: "all-courses/course-details/:id",
             loader: async ({ params }) => {
               const res = await axios.get(
-                `http://localhost:3000/course/${params.id}`
+                `https://learn-zone-server.vercel.app/course/${params.id}`
               );
               return res.data;
             },
@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
             path: "update-course/:id",
             loader: ({ params }) =>
               axios
-                .get(`http://localhost:3000/course/${params.id}`)
+                .get(`https://learn-zone-server.vercel.app/course/${params.id}`)
                 .then((res) => res.data),
             Component: UpdateCourse,
           },
