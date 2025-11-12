@@ -33,24 +33,24 @@ export const router = createBrowserRouter([
         Component: DashBoardLayout,
         children: [
           {
-            index:true,
+            index: true,
             Component: AllCourses,
           },
           {
             path: "all-courses/course-details/:id",
             loader: async ({ params }) => {
               const res = await axios.get(
-                `https://learn-zone-server.vercel.app/course/${params.id}`
+                `http://localhost:3000/course/${params.id}`
               );
-              return res.data;
+              return res.data; // axios response এর মধ্যে data property থাকে
             },
             element: (
               <PrivateRoute>
-                {" "}
-                <CourseDetails></CourseDetails>
+                <CourseDetails />
               </PrivateRoute>
             ),
           },
+
           {
             path: "add-course",
             Component: AddCourse,

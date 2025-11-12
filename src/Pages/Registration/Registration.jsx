@@ -1,4 +1,4 @@
-import { use } from "react";
+import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
@@ -6,19 +6,19 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import { toast } from "react-toastify";
 
 const Registration = () => {
-  const { createUser, googleSignIn,updateUser,setUser } = use(AuthContext);
+  const { createUser, googleSignIn, updateUser, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
 
+  // 🔹 Registration Form Submission
   const handleSignUp = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
     const photoURL = e.target.photoURL.value;
     const password = e.target.password.value;
-    console.log(photoURL);
 
     // Password validation
     const lengthRegex = /^.{6,}$/;
@@ -38,21 +38,22 @@ const Registration = () => {
       return;
     }
 
-    // 🔹 Create User
+    // 🔹 Create user using Firebase Auth
     createUser(email, password)
       .then((result) => {
-        const user = result.user 
-        navigate(from, { replace: true }); 
+        const user = result.user;
         if (user) {
-          // 🔹 Update user profile
-          updateUser({ displayName: name, photoURL: photoURL })
-          .then(() => {
-            setUser({ ...user, displayName: name, photoURL: photoURL });
-          })
-          .catch((err) => {
-            console.log(err);
-            setUser(user);
-          });
+          // 🔹 Update user profile info
+          updateUser({ displayName: name, photoURL })
+            .then(() => {
+              setUser({ ...user, displayName: name, photoURL });
+              toast.success("Registration successful!");
+              navigate(from, { replace: true }); // 🔹 আগের পেজে redirect
+            })
+            .catch((err) => {
+              console.error(err);
+              setUser(user);
+            });
         } else {
           toast.error("User not found to update profile!");
         }
@@ -63,12 +64,12 @@ const Registration = () => {
       });
   };
 
+  // 🔹 Google Sign-in Handler
   const handleGoogleRegister = () => {
     googleSignIn()
       .then((result) => {
-        console.log(result.user);
         toast.success("Google Sign In Successful");
-        navigate(from, { replace: true });
+        navigate(from, { replace: true }); // 🔹 আগের পেজে redirect
       })
       .catch((err) => {
         toast.error(err.message);
@@ -79,7 +80,7 @@ const Registration = () => {
     <div>
       <Navbar />
       <div className="relative flex justify-center items-center min-h-screen overflow-hidden bg-[#1b2a1f]">
-        {/* Background effects */}
+        {/* Background Effects */}
         <div className="absolute inset-0">
           <div className="absolute top-[-60px] left-[-60px] w-[220px] h-[220px] bg-gradient-to-br from-green-300/30 via-transparent to-transparent rounded-full blur-2xl"></div>
           <div className="absolute bottom-[-60px] right-[-60px] w-[220px] h-[220px] bg-gradient-to-tl from-green-400/30 via-transparent to-transparent rounded-full blur-2xl"></div>
@@ -100,12 +101,14 @@ const Registration = () => {
             name="name"
             placeholder="Name"
             className="w-full h-12 rounded-md bg-[#334033] text-white px-3 border-2 border-[#334033] focus:scale-105 transition-transform focus:outline-none placeholder:text-gray-300"
+            required
           />
           <input
             type="email"
             name="email"
             placeholder="Email"
             className="w-full h-12 rounded-md bg-[#334033] text-white px-3 border-2 border-[#334033] focus:scale-105 transition-transform focus:outline-none placeholder:text-gray-300"
+            required
           />
           <input
             type="text"
@@ -118,6 +121,7 @@ const Registration = () => {
             name="password"
             placeholder="Password"
             className="w-full h-12 rounded-md bg-[#334033] text-white px-3 border-2 border-[#334033] focus:scale-105 transition-transform focus:outline-none placeholder:text-gray-300"
+            required
           />
 
           <button

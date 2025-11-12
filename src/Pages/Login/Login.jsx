@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { use, useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
@@ -6,19 +6,20 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 
 const Form = () => {
-  const { googleSignIn, signIn } = useContext(AuthContext);
+  const { googleSignIn, signIn } = use(AuthContext);
   // const [isSignup, setIsSignup] = useState(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
+  console.log(from);
 
   const handleGoogleLogin = () => {
     googleSignIn()
       .then((result) => {
+        navigate(from, { replace: true });
         console.log(result.user);
         toast.success("Google Sign In Successful");
-        navigate(from, { replace: true }); // go back to the protected page
       })
       .catch((err) => {
         toast.error(err.message);
@@ -35,7 +36,7 @@ const Form = () => {
         console.log(result.user);
         toast.success("Login Successful");
         e.target.reset();
-         navigate(from, { replace: true }); 
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         toast.error(err.message);
@@ -110,7 +111,8 @@ const Form = () => {
           <p className="text-sm text-white text-center mt-3">
             Don't have an account?{" "}
             <Link
-              to={"/registration"}
+              to="/registration"
+              state={{ from: location.state?.from }} 
               className="underline font-bold cursor-pointer hover:text-green-300"
             >
               Sign Up
