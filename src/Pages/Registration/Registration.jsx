@@ -42,7 +42,7 @@ const Registration = () => {
     createUser(email, password)
       .then((result) => {
         const user = result.user 
-
+        navigate(from, { replace: true }); 
         if (user) {
           // 🔹 Update user profile
           updateUser({ displayName: name, photoURL: photoURL })
