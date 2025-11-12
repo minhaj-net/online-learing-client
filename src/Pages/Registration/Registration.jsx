@@ -1,5 +1,5 @@
 import { use } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 const Registration = () => {
   const { createUser, googleSignIn } = use(AuthContext);
+  const navigate=useNavigate()
   const handleSignUp = (e) => {
     e.preventDefault();
     console.log("HAndle submit button clicked");
@@ -39,6 +40,7 @@ const Registration = () => {
         toast.success("Registration seccesfull");
         e.target.reset();
         console.log(result.user);
+        navigate("/")
       })
       .catch((err) => {
         console.log(err.message);
@@ -52,6 +54,7 @@ const Registration = () => {
       .then((result) => {
         console.log(result.user);
         toast.success("Google Sign In Succesfull");
+        navigate("/")
       })
       .catch((err) => {
         toast.error(err.message);

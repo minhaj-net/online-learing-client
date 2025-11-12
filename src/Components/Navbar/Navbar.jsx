@@ -78,7 +78,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-white shadow-md justify-center items-center">
+    <nav className=" shadow-md justify-center items-center">
       <div className="container mx-auto flex items-center py-3 px-6">
         {/* Left Side - Logo */}
         <div className="flex items-center flex-1">

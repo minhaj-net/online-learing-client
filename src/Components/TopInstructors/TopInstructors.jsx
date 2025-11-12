@@ -38,7 +38,8 @@ const TopInstructor = () => {
 
   return (
     <section className="relative overflow-hidden py-16 md:py-20 px-5 md:px-10 lg:px-20">
-      {/* 🌌 Background Gradient */}
+     <div className="container mx-auto">
+       {/* 🌌 Background Gradient */}
       <div className="absolute inset-0 bg-[#041d16]">
         <div className="absolute inset-0 bg-[radial-linear(circle_at_center,_rgba(45,56,40,0.6)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>
       </div>  
@@ -114,6 +115,7 @@ const TopInstructor = () => {
           </motion.div>
         ))}
       </div>
+     </div>
     </section>
   );
 };

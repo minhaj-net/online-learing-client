@@ -4,7 +4,8 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/f
 const Footer = () => {
   return (
     <footer className="relative overflow-hidden  text-gray-300">
-      {/* 🌌 Background matching ChoseUs */}
+     <div className="container mx-auto">
+       {/* 🌌 Background matching ChoseUs */}
       <div className="absolute inset-0 bg-[#041d16]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(45,56,40,0.5)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>
       </div>
@@ -81,6 +82,7 @@ const Footer = () => {
           © {new Date().getFullYear()} <span className="text-green-400 font-semibold">LearnZone</span>. All rights reserved.
         </div>
       </div>
+     </div>
     </footer>
   );
 };

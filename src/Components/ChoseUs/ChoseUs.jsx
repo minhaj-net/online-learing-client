@@ -34,7 +34,8 @@ const ChoseUs = () => {
 
   return (
     <div className="relative overflow-hidden py-20 px-6 lg:px-20">
-      {/* 🌌 Background with Extra Outer Dark Tone */}
+     <div className="container mx-auto">
+       {/* 🌌 Background with Extra Outer Dark Tone */}
       <div className="absolute inset-0 bg-[#041d16]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(45,56,40,0.7)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>
       </div>
@@ -77,6 +78,7 @@ const ChoseUs = () => {
           </motion.div>
         ))}
       </div>
+     </div>
     </div>
   );
 };

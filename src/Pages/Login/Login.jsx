@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -7,13 +7,15 @@ import { toast, ToastContainer } from "react-toastify";
 
 const Form = () => {
   const { googleSignIn, signIn } = useContext(AuthContext);
-  const [isSignup, setIsSignup] = useState(false);
+  // const [isSignup, setIsSignup] = useState(false);
+  const navigate=useNavigate()
 
   const handleGoogleLogin = () => {
     googleSignIn()
       .then((result) => {
         console.log(result.user);
         toast.success("Google Sign In Successful");
+        navigate("/")
       })
       .catch((err) => {
         toast.error(err.message);
@@ -30,6 +32,7 @@ const Form = () => {
         console.log(result.user);
         toast.success("Login Successful");
         e.target.reset();
+        navigate("/")
       })
       .catch((err) => {
         toast.error(err.message);
