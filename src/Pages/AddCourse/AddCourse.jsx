@@ -53,7 +53,14 @@ const AddCourse = () => {
       category,
       isFeatured,
       email: user?.email,
+      userName: user?.displayName,
+      photo: user?.photoURL,
     };
+    if(!user){
+      e.target.reset()
+      toast.error("At frist Register your acount")
+      return
+    }
 
     axios
       .post("https://learn-zone-server.vercel.app/all-courses", newCourse)
@@ -82,6 +89,48 @@ const AddCourse = () => {
           Add New Course
         </h2>
 
+        {/* User Details */}
+       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+         <div className="form-control mb-4">
+          <label className="label flex items-center gap-2">
+            <FaFileAlt className="text-green-400" /> User Name
+          </label>
+          <input
+            type="text"
+            name="userName"
+            value={user?.displayName || ""}
+            readOnly
+            className="input input-bordered w-full text-white bg-[#0d3325] border-green-600 placeholder-gray-400"
+          />
+        </div>
+
+        <div className="form-control mb-4">
+          <label className="label flex items-center gap-2">
+            <FaFileAlt className="text-green-400" /> Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={user?.email || ""}
+            readOnly
+            className="input input-bordered w-full text-white bg-[#0d3325] border-green-600 placeholder-gray-400"
+          />
+        </div>
+       </div>
+
+        <div className="form-control mb-4">
+          <label className="label flex items-center gap-2">
+            <FaImage className="text-green-400" /> User Photo URL
+          </label>
+          <input
+            type="text"
+            name="photo"
+            value={user?.photoURL || ""}
+            readOnly
+            className="input input-bordered w-full text-white bg-[#0d3325] border-green-600 placeholder-gray-400"
+          />
+        </div>
+
         {/* Title */}
         <div className="form-control mb-4">
           <label className="label flex items-center gap-2">
@@ -99,7 +148,7 @@ const AddCourse = () => {
         {/* Image URL */}
         <div className="form-control mb-4">
           <label className="label flex items-center gap-2">
-            <FaImage className="text-green-400" /> Image URL
+            <FaImage className="text-green-400" /> Course Image URL
           </label>
           <input
             type="text"
@@ -178,6 +227,7 @@ const AddCourse = () => {
             type="checkbox"
             name="isFeatured"
             className="checkbox checkbox-success"
+            required
           />
           <label className="text-white flex items-center gap-2">
             <FaStar className="text-yellow-400" /> Featured

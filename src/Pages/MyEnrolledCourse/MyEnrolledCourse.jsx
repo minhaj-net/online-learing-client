@@ -7,31 +7,36 @@ import axios from "axios";
 const MyEnrolledCourses = () => {
   const { user } = useContext(AuthContext);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
-    const [loading,setLoading]=useState(true)
+  // const [loading, setLoading] = useState(true);
   // console.log(enrolledCourses);
 
-useEffect(() => {
-  if (user?.email) {
-    axios
-      .get(`https://learn-zone-server.vercel.app/my-enroll?email=${user.email}`)
-      .then((res) => {
-        setLoading(false);
-        setEnrolledCourses(res.data);
-      })
-      .catch((err) => console.error(err));
-  }
-}, [user]);
-  if(loading){
-    return <Loading></Loading>
-  }
+  useEffect(() => {
+    if (user?.email) {
+      axios
+        .get(
+          `https://learn-zone-server.vercel.app/my-enroll?email=${user.email}`
+        )
+        .then((res) => {
+          // setLoading(false);
+          setEnrolledCourses(res.data);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [user]);
+  // if (loading) {
+  //   return <Loading></Loading>;
+  // }
   return (
     <div className="min-h-screen bg-[#0d3325] py-10 px-5">
+       <h3 className="text-green-400 text-center uppercase text-xs md:text-sm tracking-wider font-semibold mb-2">
+          <sup>__________</sup> Enrollment
+        </h3>
       <h2 className="text-3xl text-green-400 font-bold mb-8 text-center">
         My Enrolled Courses
       </h2>
       <title>Learn Zone - My Enroll</title>
 
-      {enrolledCourses.length === 0 ? (
+      {!user ? (
         <p className="text-center text-gray-400">
           You haven’t enrolled in any course yet.
         </p>

@@ -24,7 +24,7 @@ const PopularCourses = () => {
   }, []);
 
   return (
-    <section className="bg-gradient-to-b from-[#2d3828] to-[#052d1f] py-20 text-white overflow-hidden">
+    <section className="bg-linear-to-b from-[#2d3828] to-[#052d1f] py-20 text-white overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Header */}
         <motion.div

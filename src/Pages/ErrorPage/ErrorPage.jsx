@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const ErrorPage = () => {
   return (
@@ -9,7 +10,7 @@ const ErrorPage = () => {
         <div className="absolute inset-0 z-[1] bg-[repeating-linear-gradient(0deg,#000,#000_1px,#111_1px,#fff_1px,#333_2px)] animate-[flicker_0.1s_steps(20)_infinite]" />
         {/* Error Text */}
         <div className="absolute top-28 text-center left-46 -translate-x-1/2 -translate-y-1/2 text-red-600 text-[18px] font-bold tracking-[2px] drop-shadow-[2px_2px_5px_black] z-[2] animate-[glitch_0.5s_infinite]">
-         <p> ERROR 404</p>
+          <p> ERROR 404</p>
         </div>
       </div>
 
@@ -57,9 +58,27 @@ const ErrorPage = () => {
         }
       `}</style>
       <div className="mt-8">
-        <p  className="font-black text-4xl text-center mb-3"> O<span className="text-red-500">p</span>P<span className="text-red-500">s</span> !</p>
-        <p className="font-black text-4xl"> P<span className="text-red-500">a</span>g<span className="text-red-500">e</span> N<span className="text-red-500">o</span>t F<span className="text-red-500">o</span>u<span className="text-red-500">n</span>d</p>
+        <p className="font-black text-4xl text-center mb-3">
+          {" "}
+          O<span className="text-red-500">p</span>P
+          <span className="text-red-500">s</span> !
+        </p>
+        <p className="font-black text-4xl">
+          {" "}
+          P<span className="text-red-500">a</span>g
+          <span className="text-red-500">e</span> N
+          <span className="text-red-500">o</span>t F
+          <span className="text-red-500">o</span>u
+          <span className="text-red-500">n</span>d
+        </p>
       </div>
+      <Link
+        to="/"
+        className="btn btn-sm mt-4 md:btn-md bg-green-700 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
+      >
+       
+        <span>Go Back !</span>
+      </Link>
     </div>
   );
 };

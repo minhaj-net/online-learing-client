@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
         Component: DashBoardLayout,
         children: [
           {
-            path: "all-courses",
+            index:true,
             Component: AllCourses,
           },
           {

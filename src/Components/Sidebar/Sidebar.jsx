@@ -15,7 +15,7 @@ const SidebarRadio = () => {
       id: "dashboard",
       icon: <FaBookOpen />,
       label: "All Coures",
-      path: "/dashboard/all-courses",
+      path: "/dashboard",
     },
     { id: "profile", icon:   <FaPlusCircle />, label: "Add Course", path: "/dashboard/add-course" },
     {
@@ -25,12 +25,12 @@ const SidebarRadio = () => {
       path: "/dashboard/my-enrolled-course",
     },
     { id: "help", icon:    <FaGraduationCap />, label: "My Course", path: "/dashboard/my-course" },
-    {
-      id: "settings",
-      icon: <FaEdit /> ,
-      label: "Update Course",
-      path: "/dashboard/update-course",
-    },
+    // {
+    //   id: "settings",
+    //   icon: <FaEdit /> ,
+    //   label: "Update Course",
+    //   path: "/dashboard/update-course",
+    // },
   ];
 
   return (

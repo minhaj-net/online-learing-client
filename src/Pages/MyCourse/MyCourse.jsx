@@ -97,12 +97,7 @@ const MyCourses = () => {
         </p>
 
         {/* Loading State */}
-        {loading && (
-          <div className="text-gray-400 text-lg animate-pulse text-center">
-            Loading your courses...
-          </div>
-        )}
-
+       
         {/* Empty State */}
         {!loading && courses.length === 0 && (
           <motion.p

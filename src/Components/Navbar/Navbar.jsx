@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { Menu, X } from "lucide-react";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
@@ -10,9 +10,10 @@ import ToogleButton from "../ToggleButton/ToggleButton";
 
 const Navbar = () => {
   const { user } = use(AuthContext);
+  console.log(user);
 
   // const handleSignOut = () => {
- 
+
   //   logOut()
   //     .then((result) => {
   //       toast.success("Logout successful");
@@ -24,20 +25,18 @@ const Navbar = () => {
   //     });
   // };
 
-    
   const navigate = useNavigate();
   const handleSignOut = () => {
-
-  signOut(auth)
-    .then(() => {
-      toast.success("Logout successful");
-      navigate("/login"); // লগআউটের পর রিডাইরেক্ট করবে
-    })
-    .catch((error) => {
-      console.error("Logout error:", error);
-      toast.error("Logout failed. Please try again.");
-    });
-};
+    signOut(auth)
+      .then(() => {
+        toast.success("Logout successful");
+        navigate("/login"); // লগআউটের পর রিডাইরেক্ট করবে
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
+        toast.error("Logout failed. Please try again.");
+      });
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -82,11 +81,13 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center py-3 px-6">
         {/* Left Side - Logo */}
         <div className="flex items-center flex-1">
-          <img
-            src="https://i.ibb.co.com/GQWy02Kk/5de63102937d14a8350c852d3bf689be.jpg"
-            alt="Logo"
-            className="w-12 h-12 rounded-full"
-          />
+          <Link to={"/"}>
+            <img
+              src="https://i.ibb.co.com/GQWy02Kk/5de63102937d14a8350c852d3bf689be.jpg"
+              alt="Logo"
+              className="w-12 h-12 rounded-full"
+            />
+          </Link>
           <Link to="/" className="text-xl font-bold text-gray-800 ml-2">
             Learn <sup className="text-[#0d3325]">Zone</sup>
           </Link>
@@ -101,14 +102,25 @@ const Navbar = () => {
         <div className="hidden md:flex flex-1 justify-end">
           <ToogleButton></ToogleButton>
           {user ? (
-            <Link
-              onClick={handleSignOut}
-             
-              className="btn btn-sm md:btn-md bg-green-700 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
-            >
-              <FaSignOutAlt className="rotate-180" />
-              <span>Logout</span>
-            </Link>
+            <div className="relative cursor-pointer flex gap-3 items-center">
+              <div className="relative group cursor-pointer">
+                <img
+                  src={user.photoURL}
+                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full border-2 border-green-500 transition-transform duration-300 group-hover:scale-110"
+                />
+                <span className="absolute left-1/2 -translate-x-1/2 -bottom-10 opacity-0 group-hover:opacity-100 bg-base-200 text-sm font-semibold text-primary px-3 py-1 rounded-lg shadow-md transition-all duration-300 whitespace-nowrap">
+                  {user.displayName}
+                </span>
+              </div>
+              <Link
+                onClick={handleSignOut}
+                className="btn btn-sm md:btn-md bg-green-700 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
+              >
+                <FaSignOutAlt className="rotate-180" />
+                <span>Logout</span>
+              </Link>
+            </div>
           ) : (
             <Link
               to="/login"
