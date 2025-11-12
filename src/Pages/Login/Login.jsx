@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -9,13 +9,16 @@ const Form = () => {
   const { googleSignIn, signIn } = useContext(AuthContext);
   // const [isSignup, setIsSignup] = useState(false);
   const navigate=useNavigate()
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const handleGoogleLogin = () => {
     googleSignIn()
       .then((result) => {
         console.log(result.user);
         toast.success("Google Sign In Successful");
-        navigate("/")
+        navigate(from, { replace: true }); // go back to the protected page
       })
       .catch((err) => {
         toast.error(err.message);

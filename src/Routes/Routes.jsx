@@ -13,6 +13,7 @@ import MyEnrolledCourse from "../Pages/MyEnrolledCourse/MyEnrolledCourse";
 import CourseDetails from "../Components/CourseDetails/CourseDetails";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import axios from "axios";
+import PrivateRoute from "../Provider/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +44,12 @@ export const router = createBrowserRouter([
               );
               return res.data;
             },
-            Component: CourseDetails,
+            element: (
+              <PrivateRoute>
+                {" "}
+                <CourseDetails></CourseDetails>
+              </PrivateRoute>
+            ),
           },
           {
             path: "add-course",
