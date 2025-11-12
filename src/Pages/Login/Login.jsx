@@ -35,7 +35,7 @@ const Form = () => {
         console.log(result.user);
         toast.success("Login Successful");
         e.target.reset();
-        navigate("/")
+         navigate(from, { replace: true }); 
       })
       .catch((err) => {
         toast.error(err.message);
@@ -46,7 +46,7 @@ const Form = () => {
     <div>
       <Navbar />
       <div className="relative flex justify-center items-center min-h-screen overflow-hidden bg-[#1b2a1f]">
-        {/* 🌈 Gradient Background */}
+        {/* Gradient Background */}
         <ToastContainer></ToastContainer>
         <div className="absolute inset-0">
           <div className="absolute top-[-60px] left-[-60px] w-[220px] h-[220px] bg-gradient-to-br from-green-300/30 via-transparent to-transparent rounded-full blur-2xl"></div>
@@ -54,7 +54,7 @@ const Form = () => {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(45,56,40,0.2)_0%,_rgba(5,45,31,0.5)_60%,_rgba(2,20,15,0.8)_100%)]"></div>
         </div>
 
-        {/* 🔄 Form Container */}
+        {/* Form Container */}
         <div className="relative w-[320px] h-[500px] rounded-xl bg-[#2a3a2b] shadow-[4px_4px_12px_rgba(0,0,0,0.3),1px_1px_8px_rgba(255,255,255,0.2)] flex flex-col justify-center items-center p-6 gap-4">
           <h2 className="text-white text-2xl font-semibold mb-4 text-center">
             Login

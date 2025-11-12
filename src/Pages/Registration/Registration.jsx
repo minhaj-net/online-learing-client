@@ -1,5 +1,5 @@
 import { use } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -7,7 +7,11 @@ import { toast } from "react-toastify";
 
 const Registration = () => {
   const { createUser, googleSignIn } = use(AuthContext);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
   const handleSignUp = (e) => {
     e.preventDefault();
     console.log("HAndle submit button clicked");
@@ -40,7 +44,7 @@ const Registration = () => {
         toast.success("Registration seccesfull");
         e.target.reset();
         console.log(result.user);
-        navigate("/")
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err.message);
@@ -54,7 +58,7 @@ const Registration = () => {
       .then((result) => {
         console.log(result.user);
         toast.success("Google Sign In Succesfull");
-        navigate("/")
+        navigate(from, { replace: true }); 
       })
       .catch((err) => {
         toast.error(err.message);
@@ -65,14 +69,14 @@ const Registration = () => {
     <div>
       <Navbar />
       <div className="relative flex justify-center items-center min-h-screen overflow-hidden bg-[#1b2a1f]">
-        {/* 🌈 Gradient Background */}
+        {/*  Gradient Background */}
         <div className="absolute inset-0">
           <div className="absolute top-[-60px] left-[-60px] w-[220px] h-[220px] bg-gradient-to-br from-green-300/30 via-transparent to-transparent rounded-full blur-2xl"></div>
           <div className="absolute bottom-[-60px] right-[-60px] w-[220px] h-[220px] bg-gradient-to-tl from-green-400/30 via-transparent to-transparent rounded-full blur-2xl"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(45,56,40,0.2)_0%,_rgba(5,45,31,0.5)_60%,_rgba(2,20,15,0.8)_100%)]"></div>
         </div>
 
-        {/* 🟢 Registration Form */}
+        {/*  Registration Form */}
         <form
           onSubmit={handleSignUp}
           className="relative w-[360px] p-6 rounded-xl bg-[#2a3a2b] shadow-[4px_4px_12px_rgba(0,0,0,0.3),1px_1px_8px_rgba(255,255,255,0.2)] flex flex-col gap-4"
@@ -117,7 +121,7 @@ const Registration = () => {
             Register
           </button>
 
-          {/* 🌟 Google Register Button */}
+          {/*  Google Register Button */}
           <button
             type="button"
             onClick={handleGoogleRegister}

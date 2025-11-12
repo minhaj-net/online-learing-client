@@ -5,6 +5,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import { motion } from "framer-motion";
 import Loading from "../../Components/Loading/Loading";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const MyCourses = () => {
   const { user } = useContext(AuthContext);
@@ -12,34 +13,60 @@ const MyCourses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  if (user) {
-    axios
-      .get(`https://learn-zone-server.vercel.app/courses?email=${user?.email}`)
-      .then((res) => {
-        setCourses(res.data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  } else {
-    setLoading(false);
-  }
-}, [user]);
+    if (user) {
+      axios
+        .get(
+          `https://learn-zone-server.vercel.app/courses?email=${user?.email}`
+        )
+        .then((res) => {
+          setCourses(res.data);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [user]);
   const handleDelete = (id) => {
-    // const confirmDelete = window.confirm("Are you sure you want to delete this course?");
-    // if (!confirmDelete) return;
+  
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+     
+      axios
+        .delete(`https://learn-zone-server.vercel.app/courses/${id}`)
+        .then((res) => {
+          if (res.data.message === "Course deleted successfully") {
+            setCourses((prevCourses) =>
+              prevCourses.filter((course) => course._id !== id)
+            );
+            toast.success("✅ Course deleted successfully!");
 
-    axios
-      .delete(`https://learn-zone-server.vercel.app/courses/${id}`)
-      .then((res) => {
-        if (res.data.message === "Course deleted successfully") {
-          setCourses(courses.filter((c) => c._id !== id));
-          toast.success("✅ Course deleted successfully!");
-        } else {
-          toast.error("❌ Course not found!");
-        }
-      })
-      .catch(() => toast.error("❌ Failed to delete course"));
-  };
+           
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your course has been deleted.",
+              icon: "success",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          } else {
+            toast.error(" Course not found!");
+          }
+        })
+        .catch(() => {
+          toast.error(" Failed to delete course!");
+        });
+    }
+  });
+};
   if (loading) {
     return <Loading></Loading>;
   }

@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAsowmDvnY6qhfc4GJYI3B0e7LHuDy6Q9o",
-  authDomain: "online-learning-proj.firebaseapp.com",
-  projectId: "online-learning-proj",
-  storageBucket: "online-learning-proj.firebasestorage.app",
-  messagingSenderId: "133883851559",
-  appId: "1:133883851559:web:a32cb78cf75c020e74ef02"
+  apiKey:import.meta.env.VITE_apiKey,
+  authDomain:import.meta.env.VITE_authDomain,
+  projectId:import.meta.env.VITE_projectId,
+  storageBucket:import.meta.env.VITE_storageBucket,
+  messagingSenderId:import.meta.env.VITE_messagingSenderId,
+  appId:import.meta.env.VITE_appId 
 };
 
 // Initialize Firebase
