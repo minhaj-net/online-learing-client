@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import Navbar from "../../Components/Navbar/Navbar";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const Registration = () => {
   const { createUser, googleSignIn, updateUser, setUser } = useContext(AuthContext);
@@ -67,7 +67,7 @@ const Registration = () => {
   // 🔹 Google Sign-in Handler
   const handleGoogleRegister = () => {
     googleSignIn()
-      .then((result) => {
+      .then(() => {
         toast.success("Google Sign In Successful");
         navigate(from, { replace: true }); // 🔹 আগের পেজে redirect
       })
@@ -79,6 +79,7 @@ const Registration = () => {
   return (
     <div>
       <Navbar />
+      <ToastContainer></ToastContainer>
       <div className="relative flex justify-center items-center min-h-screen overflow-hidden bg-[#1b2a1f]">
         {/* Background Effects */}
         <div className="absolute inset-0">

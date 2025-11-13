@@ -2,11 +2,13 @@ import React from "react";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
 import { Outlet } from "react-router";
+import { ToastContainer } from "react-toastify";
 
 const DashBoardLayout = () => {
   return (
     <div className="relative min-h-screen flex flex-col overflow-hidden">
       <title>Learn Zone - Dashboard</title>
+      <ToastContainer></ToastContainer>
       {/* 🌌 Background gradient (from ChoseUs component) */}
       <div className="absolute inset-0 bg-[#041d16]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(45,56,40,0.7)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>

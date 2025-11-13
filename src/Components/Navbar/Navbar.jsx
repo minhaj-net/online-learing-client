@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router";
 import { Menu, X } from "lucide-react";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { signOut } from "firebase/auth";
 import { auth } from "../../Firebase/firebase.init";
 import ToogleButton from "../ToggleButton/ToggleButton";
@@ -78,6 +78,7 @@ const Navbar = () => {
 
   return (
     <nav className=" shadow-md justify-center items-center">
+      <ToastContainer></ToastContainer>
       <div className="container mx-auto flex items-center py-3 px-6">
         {/* Left Side - Logo */}
         <div className="flex items-center flex-1">

@@ -37,7 +37,28 @@ const AllCourses = () => {
       <div className="absolute inset-0 bg-[#041d16]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(45,56,40,0.7)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>
       </div>
+
       <title>Learn Zone - All Courses</title>
+      {/* ✨ Header */}
+      <div className="relative z-10 text-center mb-10 md:mb-14">
+        <h3 className="text-green-400 uppercase text-xs md:text-sm tracking-wider font-semibold mb-2">
+          <sup>__________</sup>EXPENSIVE
+        </h3>
+
+        <motion.h2
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3"
+        >
+           Our Popular <span className="text-green-400"> Courses</span>
+        </motion.h2>
+
+        <p className="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base">
+          Upgrade your knowledge with our popular courses. Learn from the best
+          and level up your career
+        </p>
+      </div>
 
       {/* Courses Grid */}
       <div className="relative z-10 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
