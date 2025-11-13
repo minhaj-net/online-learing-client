@@ -7,40 +7,55 @@ import axios from "axios";
 const MyEnrolledCourses = () => {
   const { user } = useContext(AuthContext);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // console.log(enrolledCourses);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user?.email) {
+      setLoading(true);
       axios
         .get(
           `https://learn-zone-server.vercel.app/my-enroll?email=${user.email}`
         )
         .then((res) => {
-          // setLoading(false);
           setEnrolledCourses(res.data);
+          setLoading(false);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          console.error(err);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
     }
   }, [user]);
-  // if (loading) {
-  //   return <Loading></Loading>;
-  // }
+
+  // ⏳ Loading Spinner
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="min-h-screen bg-[#0d3325] py-10 px-5">
-       <h3 className="text-green-400 text-center uppercase text-xs md:text-sm tracking-wider font-semibold mb-2">
-          <sup>__________</sup> Enrollment
-        </h3>
+      <h3 className="text-green-400 text-center uppercase text-xs md:text-sm tracking-wider font-semibold mb-2">
+        <sup>__________</sup> Enrollment
+      </h3>
       <h2 className="text-3xl text-green-400 font-bold mb-8 text-center">
         My Enrolled Courses
       </h2>
       <title>Learn Zone - My Enroll</title>
 
+      
       {!user ? (
+        <p className="text-center text-gray-400">
+          Please log in to view your enrolled courses.
+        </p>
+      ) : enrolledCourses.length === 0 ? (
+     
         <p className="text-center text-gray-400">
           You haven’t enrolled in any course yet.
         </p>
       ) : (
+        // 🎓 Enrolled Course Grid
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
           {enrolledCourses.map((course) => (
             <motion.div
@@ -60,7 +75,10 @@ const MyEnrolledCourses = () => {
                 Price: ${course.price}
               </p>
               <p className="text-gray-400 text-sm">
-                Enrolled on: {new Date(course.enrolledAt).toLocaleDateString()}
+                Enrolled on:{" "}
+                {course.enrolledAt
+                  ? new Date(course.enrolledAt).toLocaleDateString()
+                  : "N/A"}
               </p>
             </motion.div>
           ))}

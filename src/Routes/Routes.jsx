@@ -15,6 +15,9 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import axios from "axios";
 import PrivateRoute from "../Provider/PrivateRoute";
 
+// ✅ Base API
+const BASE_URL = "https://learn-zone-server.vercel.app";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -38,19 +41,15 @@ export const router = createBrowserRouter([
           },
           {
             path: "all-courses/course-details/:id",
-            loader: async ({ params }) => {
-              const res = await axios.get(
-                `http://localhost:3000/course/${params.id}`
-              );
-              return res.data; // axios response এর মধ্যে data property থাকে
-            },
+            loader: ({ params }) =>
+              fetch(`${BASE_URL}/course/${params.id}`),
+              
             element: (
               <PrivateRoute>
                 <CourseDetails />
               </PrivateRoute>
             ),
           },
-
           {
             path: "add-course",
             Component: AddCourse,
@@ -63,7 +62,7 @@ export const router = createBrowserRouter([
             path: "update-course/:id",
             loader: ({ params }) =>
               axios
-                .get(`https://learn-zone-server.vercel.app/course/${params.id}`)
+                .get(`${BASE_URL}/course/${params.id}`)
                 .then((res) => res.data),
             Component: UpdateCourse,
           },

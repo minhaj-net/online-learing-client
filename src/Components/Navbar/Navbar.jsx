@@ -30,7 +30,7 @@ const Navbar = () => {
     signOut(auth)
       .then(() => {
         toast.success("Logout successful");
-        navigate("/login"); // লগআউটের পর রিডাইরেক্ট করবে
+        navigate("/login"); 
       })
       .catch((error) => {
         console.error("Logout error:", error);
@@ -145,13 +145,35 @@ const Navbar = () => {
         <div className="md:hidden bg-white shadow-md border-t">
           <div className="flex flex-col items-center space-y-4 py-4">
             {links}
-            <Link
-              to={"/login"}
-              className="btn btn-sm md:btn-md bg-green-500/10 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
-            >
-              <FaUser />
-              <span>Login</span>
-            </Link>
+            {user ? (
+              <div className="relative cursor-pointer flex gap-3 items-center">
+                <div className="relative group cursor-pointer">
+                  <img
+                    src={user.photoURL}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full border-2 border-green-500 transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <span className="absolute left-1/2 -translate-x-1/2 -bottom-10 opacity-0 group-hover:opacity-100 bg-base-200 text-sm font-semibold text-primary px-3 py-1 rounded-lg shadow-md transition-all duration-300 whitespace-nowrap">
+                    {user.displayName}
+                  </span>
+                </div>
+                <Link
+                  onClick={handleSignOut}
+                  className="btn btn-sm md:btn-md bg-green-700 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
+                >
+                  <FaSignOutAlt className="rotate-180" />
+                  <span>Logout</span>
+                </Link>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="btn btn-sm md:btn-md bg-green-700 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white transition-all duration-300"
+              >
+                <FaUser />
+                <span>Login</span>
+              </Link>
+            )}
           </div>
         </div>
       )}

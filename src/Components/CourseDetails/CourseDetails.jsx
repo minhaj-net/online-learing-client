@@ -1,88 +1,86 @@
-import React, { use, useEffect } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FaUserGraduate, FaClock, FaStar, FaCheckCircle } from "react-icons/fa";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import { FaClock, FaCheckCircle } from "react-icons/fa";
 import { useLoaderData } from "react-router";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Provider/AuthProvider";
 import axios from "axios";
 
 const CourseDetails = () => {
-  const { user } = use(AuthContext);
-  const data = useLoaderData();
-  console.log(data.category);
+  const { user } = useContext(AuthContext);
+  const detailsCourse = useLoaderData();
+  const { _id, category, description, duration, image, price, title } =
+    detailsCourse;
 
-  const { category, description, duration, image, price, title } = data;
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
 
-  // Dummy course data (you can replace this with your dynamic  data)
-  const course = {
-    highlights: [
-      "Expert Instructors",
-      "Certified Courses",
-      "Flexible Learning",
-      "Global Community",
-    ],
-  };
-  const handleEnroll = (course) => {
-    toast.success("🎉 Enrolled Successfully!");
+  useEffect(() => {
+    if (user?.email) {
+      axios
+        .get(
+          `https://learn-zone-server.vercel.app/my-enroll?email=${user.email}`
+        )
+        .then((res) => setEnrolledCourses(res.data))
+        .catch((err) => console.error(err));
+    }
+  }, [user]);
+
+  const highlights = [
+    "Expert Instructors",
+    "Certified Courses",
+    "Flexible Learning",
+    "Global Community",
+  ];
+
+  const handleEnroll = async (course) => {
     if (!user?.email) {
-      return alert("Please login to enroll!");
+      toast.warning("⚠️ Please login to enroll!");
+      return;
+    }
+
+    // 🔹 Check if already enrolled
+    const alreadyEnrolled = enrolledCourses.some(
+      (c) => c.courseId === course._id
+    );
+    if (alreadyEnrolled) {
+      toast.info("ℹ️ You have already enrolled in this course!");
+      return;
     }
 
     const enrollData = {
-      userEmail: user.email, // logged-in user email
+      userEmail: user.email,
       courseId: course._id,
-      category: category,
-      description: description,
-      title: title,
-      image: image,
-      price: price,
-      duration: duration,
-      enrolledAt: new Date(), // date of enrollment
+      category,
+      description,
+      title,
+      image,
+      price,
+      duration,
+      enrolledAt: new Date(),
     };
 
-    axios
-      .post("https://learn-zone-server.vercel.app/my-enroll", enrollData)
-      .then(() => {
-        toast.success("✅ Enrolled successfully!");
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("❌ Enrollment failed!");
-      });
+    try {
+      await axios.post(
+        "https://learn-zone-server.vercel.app/my-enroll",
+        enrollData
+      );
+      toast.success("✅ Enrolled successfully!");
+      setEnrolledCourses((prev) => [...prev, enrollData]); // update local state
+    } catch (error) {
+      console.error(error);
+      toast.error("❌ Enrollment failed!");
+    }
   };
-
-  // const relatedCourses = [
-  //   {
-  //     id: 1,
-  //     title: "UI/UX Design Fundamentals",
-  //     img: "https://images.unsplash.com/photo-1559027615-5da6c3947810?w=600",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Advanced JavaScript Mastery",
-  //     img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "React for Beginners",
-  //     img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600",
-  //   },
-  // ];
 
   return (
     <section className="min-h-screen bg-[#041d16] text-white py-16 px-5 md:px-10 lg:px-20">
-      {/* 🔹 Course Banner */}
-
+      {/* Course Banner */}
       <motion.div
         data-aos="fade-up"
         className="relative w-full rounded-2xl overflow-hidden shadow-lg mb-12"
@@ -101,8 +99,9 @@ const CourseDetails = () => {
         </div>
       </motion.div>
 
-      {/* 🔸 Course Info */}
+      {/* Course Info */}
       <div className="grid lg:grid-cols-3 gap-10 mb-16">
+        {/* Left: Overview */}
         <motion.div
           data-aos="fade-right"
           className="lg:col-span-2 bg-[#0d3325]/70 p-6 rounded-2xl border border-green-900/40 shadow-lg backdrop-blur-md"
@@ -110,17 +109,13 @@ const CourseDetails = () => {
           <h2 className="text-2xl font-semibold mb-3 text-green-300">
             Course Overview
           </h2>
-          <p className="text-gray-300 leading-relaxed mb-6">
-            {description}
-            {description}
-            {description}
-          </p>
+          <p className="text-gray-300 leading-relaxed mb-6">{description}</p>
 
           <h3 className="text-xl font-semibold text-green-400 mb-4">
-            Why Chose With Us:
+            Why Choose Us:
           </h3>
           <ul className="space-y-3">
-            {course.highlights.map((item, index) => (
+            {highlights.map((item, index) => (
               <li key={index} className="flex items-center text-gray-300 gap-2">
                 <FaCheckCircle className="text-green-400" /> {item}
               </li>
@@ -128,14 +123,14 @@ const CourseDetails = () => {
           </ul>
         </motion.div>
 
-        {/* 🔹 Sidebar */}
+        {/* Right: Sidebar */}
         <motion.div
           data-aos="fade-left"
           className="bg-[#0d3325]/70 p-6 rounded-2xl border border-green-900/40 shadow-lg text-gray-200 space-y-4 backdrop-blur-md"
         >
           <div className="flex items-center justify-between">
             <span className="text-green-400 font-semibold">Category:</span>
-            <p className="flex items-center gap-2">{category}</p>
+            <p>{category}</p>
           </div>
 
           <div className="flex items-center justify-between">
@@ -146,13 +141,6 @@ const CourseDetails = () => {
             </p>
           </div>
 
-          {/* <div className="flex items-center justify-between">
-            <span className="text-green-400 font-semibold">Rating:</span>
-            <p className="flex items-center gap-1 text-yellow-400">
-             {isFeatured}
-            </p>
-          </div> */}
-
           <div className="flex items-center justify-between border-t border-green-900/30 pt-4">
             <span className="text-green-400 font-semibold">Price:</span>
             <p className="text-green-300 font-bold text-lg">$ {price}</p>
@@ -160,49 +148,13 @@ const CourseDetails = () => {
 
           <motion.button
             whileHover={{ scale: 1.05 }}
-            onClick={handleEnroll}
+            onClick={() => handleEnroll(detailsCourse)}
             className="btn w-full mt-4 bg-green-500/10 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white rounded-lg transition-all duration-300"
           >
             Enroll Now
           </motion.button>
         </motion.div>
       </div>
-
-      {/* 🌀 Related Courses Section */}
-      {/* <motion.div data-aos="fade-up">
-        <h2 className="text-2xl font-bold text-green-300 mb-6">
-          Related Courses
-        </h2>
-
-        <Swiper
-          modules={[Pagination]}
-          spaceBetween={20}
-          slidesPerView={1}
-          pagination={{ clickable: true }}
-          breakpoints={{
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-          className="pb-10"
-        >
-          {relatedCourses.map((course) => (
-            <SwiperSlide key={course.id}>
-              <div className="bg-[#0d3325]/70 rounded-xl overflow-hidden shadow-md border border-green-900/40 hover:shadow-green-700/30 transition-all duration-300">
-                <img
-                  src={course.img}
-                  alt={course.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4 text-center">
-                  <h3 className="text-green-300 font-semibold">
-                    {course.title}
-                  </h3>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </motion.div> */}
     </section>
   );
 };

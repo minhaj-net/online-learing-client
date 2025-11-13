@@ -1,98 +1,108 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Link, Outlet } from "react-router";
+import Loading from "../Loading/Loading";
+import axios from "axios";
 
-const PopularCourses = () => {
+const AllCourses = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // ✅ Initialize AOS
   useEffect(() => {
-    AOS.init({ duration: 1000, offset: 100, easing: "ease-in-out" });
+    AOS.init({ duration: 1000 });
   }, []);
 
-  // ✅ Fetch data
   useEffect(() => {
     axios
-      .get("https://learn-zone-server.vercel.app/popular/")
+      .get("https://learn-zone-server.vercel.app/all-courses")
       .then((res) => {
-        console.log("after getting popular data", res.data);
-        setData(res.data);
+        // Sort by price descending and take top 6
+        const top6 = res.data
+          .sort((a, b) => b.price - a.price)
+          .slice(0, 6);
+        setData(top6);
+        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
 
-  return (
-    <section className="bg-linear-to-b from-[#2d3828] to-[#052d1f] py-20 text-white overflow-hidden">
-      <div className="container mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-        >
-          <span className="text-green-400 uppercase text-sm tracking-wider font-semibold">
-            <sup>__________</sup> Features
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2">
-            Popular Courses
-          </h2>
-          <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
-            Discover courses that can boost your career. Learn from expert
-            instructors and practical lessons. Join thousands of learners who
-            are advancing their skills every day.
-          </p>
-        </motion.div>
+  if (loading) return <Loading />;
 
-        {/* Features Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {data.map((feature, index) => (
-            <motion.div
-              key={index}
-              data-aos="fade-up"
-              data-aos-delay={index * 150}
-              className="bg-gradient-to-b from-[#1b1c1f] to-[#101113] p-6 rounded-xl border border-gray-800 shadow-lg hover:shadow-2xl transition-shadow duration-300"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 150 }}
-            >
-              <motion.div
-                className="mb-4 overflow-hidden rounded-md"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.4 }}
-              >
-                <img
-                  src={feature.image}
-                  alt={feature.title}
-                  className="w-full h-48 object-cover rounded-md"
-                />
-              </motion.div>
-              <motion.h3
-                className="text-xl font-semibold mb-2"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                {feature.title}
-              </motion.h3>
-              <motion.p
-                className="text-gray-400"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
-              >
-                {feature.description}
-              </motion.p>
-            </motion.div>
-          ))}
-        </div>
+  return (
+    <section className="relative overflow-hidden py-10 px-3 md:px-6 lg:px-10 mx-auto">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[#041d16]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(45,56,40,0.7)_0%,_rgba(5,45,31,0.95)_60%,_rgba(2,20,15,1)_100%)]"></div>
       </div>
+
+      <title>Learn Zone - Top 6 Expensive Courses</title>
+
+      {/* Courses Grid */}
+      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 justify-items-center">
+        {data.length === 0 && (
+          <p className="text-center text-gray-400 w-full">
+            No courses available.
+          </p>
+        )}
+
+        {data.map((course, i) => (
+          <motion.div
+            key={course._id || i}
+            data-aos="zoom-in-up"
+            whileHover={{ y: -4, scale: 1.02 }}
+            transition={{ duration: 0.25 }}
+            className="bg-[#0d3325]/70 border border-green-900/30 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-green-700/30 transition-all duration-300 overflow-hidden flex flex-col
+              w-[280px] sm:w-[280px] md:w-[300px] lg:w-[320px]"
+          >
+            {/* Image */}
+            <div className="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden">
+              <img
+                src={course.image}
+                alt={course.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#041d16]/90 via-[#041d16]/50 to-transparent"></div>
+            </div>
+
+            {/* Category */}
+            <div className="px-4 py-2 flex justify-between items-center text-xs sm:text-sm">
+              <p className="text-green-400/90 font-medium tracking-wide uppercase">
+                {course.category}
+              </p>
+            </div>
+
+            {/* Duration & Price */}
+            <div className="px-4 flex justify-between items-center text-xs sm:text-sm border-b border-green-900/20 pb-2">
+              <p className="text-gray-300 font-medium">
+                ⏳ <span className="text-green-300">{course.duration}</span>
+              </p>
+              <p className="text-green-400 font-semibold">💲{course.price}</p>
+            </div>
+
+            {/* Title + Button */}
+            <div className="p-4 flex flex-col flex-1">
+              <h3 className="text-lg sm:text-xl font-semibold text-white leading-tight group-hover:text-green-300 transition-colors duration-300 mb-3 line-clamp-2 overflow-hidden">
+                {course.title}
+              </h3>
+              <Link
+                to={`/dashboard/all-courses/course-details/${course._id}`}
+                className="mt-auto btn btn-sm md:btn-md bg-green-500/10 border border-green-400 text-green-300 hover:bg-green-500 hover:text-white rounded-lg px-3 py-1 md:px-4 md:py-2 transition-all duration-300"
+              >
+                View Details
+              </Link>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <Outlet />
     </section>
   );
 };
 
-export default PopularCourses;
+export default AllCourses;
